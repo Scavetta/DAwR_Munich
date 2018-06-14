@@ -64,19 +64,37 @@ table(protein.df$Contaminant)
 protein.df %>% 
   filter(Contaminant != "+")
 
+#############################
 # Get specific Uniprot IDs
 protein.df %>% 
   filter(Uniprot %in% paste0(c("GOGA7", "PSA6", "S10AB"), "_MOUSE"))
+# With []
+protein.df[protein.df$Uniprot %in% paste0(c("GOGA7", "PSA6", "S10AB"), "_MOUSE"),
+           c("Uniprot", "Ratio.H.M", "Ratio.M.L")]
 
-
-# Get significant hits for HM
+############################## Get significant hits for HM 
+# filter removes NAs
 protein.df %>% 
-  filter(Contaminant != "+", Ratio.H.M.Sig < 0.05)
+  filter(Ratio.H.M.Sig < 0.05)
+# With [] - does not remove NAs, to remove NAs use is.na(x)
+protein.df[protein.df$Ratio.H.M.Sig < 0.05 & !is.na(protein.df$Ratio.H.M.Sig),]
 
-# Extreme ratios:
+# Aside:
+is.double(protein.df$Ratio.M.L) # TRUE
+is.na(protein.df$Ratio.M.L) # logical vector as long as input
+!is.na(protein.df$Ratio.M.L) # ALL non-NAs
+
+############################## Extreme ratios:
+# With filter:
 protein.df %>% 
-  filter(Contaminant != "+") %>% 
+  # filter(Contaminant != "+") %>% 
   filter(Ratio.H.M > 2 | Ratio.H.M < -2)
+# With []
+protein.df[(protein.df$Ratio.H.M > 2 | protein.df$Ratio.H.M < -2) & 
+             !is.na(protein.df$Ratio.H.M),]
+
+#############################
+
 
 
 
