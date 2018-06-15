@@ -1,4 +1,16 @@
-# Can you make this data tidy?
+# SILAC Analysis using dplyr & tidyr
+# Rick Scavetta
+# 14 June 2018
+# Case study for workshop
+
+# clear workspace
+rm(list = ls())
+
+# Load packages
+library(tidyverse)
+
+# Can you make this data tidy? YES!
+
 # Read in data, make tibble and remove contaminants:
 read.delim("Protein.txt", stringsAsFactors = FALSE) %>% 
   as_tibble() %>% 
